@@ -27,6 +27,7 @@ open FSharpKoans.Core
 //---------------------------------------------------------------
 [<Koan(Sort = 15)>]
 module ``about the stock example`` =
+    open System.Globalization
     
     let stockData =
         [ "Date,Open,High,Low,Close,Volume,Adj Close";
@@ -58,8 +59,20 @@ module ``about the stock example`` =
     // tests for yourself along the way. You can also try 
     // using the F# Interactive window to check your progress.
 
+
+
+    
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (x:string) =
+            x.Split([|','|])
+        let parse s =
+            System.Double.Parse(s, CultureInfo.InvariantCulture);
+        let tupMax (x,y:double) = 
+            y
+        let createTup y = 
+            let split = splitCommas y
+            ( split.[0], abs(parse split.[1] - parse split.[4]))
+        let result =  stockData.Tail |> Seq.map( fun t -> createTup t) |> Seq.maxBy tupMax |> fst      
         
         AssertEquality "2012-03-13" result
