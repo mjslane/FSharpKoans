@@ -64,7 +64,6 @@ module ``about the stock example`` =
     
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let tupMax (x,y:double) = y
 
         let createComparible y = 
             let splitCommas (x:string) = x.Split([|','|])
@@ -74,7 +73,7 @@ module ``about the stock example`` =
 
         let result =  stockData.Tail 
                         |> Seq.map( fun t -> createComparible t) 
-                        |> Seq.maxBy tupMax 
+                        |> Seq.maxBy snd
                         |> fst      
         
         AssertEquality "2012-03-13" result
