@@ -64,15 +64,17 @@ module ``about the stock example`` =
     
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let splitCommas (x:string) =
-            x.Split([|','|])
-        let parse s =
-            System.Double.Parse(s, CultureInfo.InvariantCulture);
-        let tupMax (x,y:double) = 
-            y
-        let createTup y = 
+        let tupMax (x,y:double) = y
+
+        let createComparible y = 
+            let splitCommas (x:string) = x.Split([|','|])
+            let parse s = System.Double.Parse(s, CultureInfo.InvariantCulture);
             let split = splitCommas y
             ( split.[0], abs(parse split.[1] - parse split.[4]))
-        let result =  stockData.Tail |> Seq.map( fun t -> createTup t) |> Seq.maxBy tupMax |> fst      
+
+        let result =  stockData.Tail 
+                        |> Seq.map( fun t -> createComparible t) 
+                        |> Seq.maxBy tupMax 
+                        |> fst      
         
         AssertEquality "2012-03-13" result
